@@ -4,9 +4,10 @@ name: Azure ARM
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      webapp: 2022oscardevops-test
     steps:
-
-      # Checkout code
+          # Checkout code
     - uses: actions/checkout@main
 
       # Log into Azure
@@ -21,3 +22,7 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./ARM-Templates/container-webapp-template.json
+        parameters: webAppName = $webapp
+        
+        
+        
