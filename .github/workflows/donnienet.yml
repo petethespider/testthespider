@@ -24,8 +24,23 @@ jobs:
       with:
         app-name: 2022oscardevops-dev
         images: ${{ env.registryName }}/${{ env.repositoryName }}:${{ env.tag }}
+   needs: Job1 
    
-   needs: Job1       
+  Job3:
+   name: deploy to test
+   runs-on: ubuntu-latest
+   steps:
+    - uses: azure/login@v1
+      with:
+       creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 2022oscardevops-test
+        images: ${{ env.registryName }}/${{ env.repositoryName }}:${{ env.tag }}
+   needs: Job0 
+   environment:
+    name: test  
+   
   Job1: 
     name: Docker
     runs-on: ubuntu-latest
