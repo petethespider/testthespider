@@ -10,8 +10,19 @@ env:
   repositoryName: wth/dotnetcoreapp
   dockerFolderPath: Application/src/RazorPagesTestSample
   tag: ${{github.run_number}}
+ 
+  
 jobs:
-  Docker: 
+  Job0:
+   name: login
+   runs-on: ubuntu-latest
+   steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+  Job1: 
+    name: Docker
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -21,19 +32,19 @@ jobs:
       run: docker build -t $registryName/$repositoryName:$tag --build-arg build_version=$tag $dockerFolderPath
     - name: Docker push
       run: docker push $registryName/$repositoryName:$tag
-  
-  
-  build:
-
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-    - name: Install dependencies
-      run: dotnet restore ./Application/src/RazorPagesTestSample/RazorPagesTestSample.csproj
-    - name: Build
-      run: dotnet build ./Application/src/RazorPagesTestSample/RazorPagesTestSample.csproj --configuration Release --no-restore
-    - name: Test
-      run: dotnet test ./Application/tests/RazorPagesTestSample.Tests/RazorPagesTestSample.Tests.csproj --no-restore --verbosity normal
+    needs: Job2
       
+  Job2:
+   name: net
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v2
+     - name: Setup .NET Core
+       uses: actions/setup-dotnet@v1
+     - name: Install dependencies
+       run: dotnet restore ./Application/src/RazorPagesTestSample/RazorPagesTestSample.csproj
+     - name: Build
+       run: dotnet build ./Application/src/RazorPagesTestSample/RazorPagesTestSample.csproj --configuration Release --no-restore
+     - name: Test
+       run: dotnet test ./Application/tests/RazorPagesTestSample.Tests/RazorPagesTestSample.Tests.csproj --no-restore --verbosity normal
+       
