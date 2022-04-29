@@ -5,7 +5,7 @@ on:
     paths: Application/**
   pull_request:
     paths: Application/**
-
+env:
   registryName: 2022oscardevopsreg.azurerc.io
   repositoryName: wth/dotnetcoreapp
   dockerFolderPath: Application/src/RazorPagesTestSample
