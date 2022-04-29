@@ -19,8 +19,12 @@ jobs:
    steps:
     - uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
+       creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 2022oscardevops-dev
+        images: $registryName/$repositoryName:$tag
+   needs: Job1       
   Job1: 
     name: Docker
     runs-on: ubuntu-latest
