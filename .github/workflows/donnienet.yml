@@ -5,13 +5,24 @@ on:
     paths: Application/**
   pull_request:
     paths: Application/**
-jobs:
+
   registryName: 2022oscardevopsreg.azurerc.io
   repositoryName: wth/dotnetcoreapp
   dockerFolderPath: Application/src/RazorPagesTestSample
   tag: ${{github.run_number}}
-  
 jobs:
+  Docker: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker Login
+      run: docker login $registerName -u ACR_USERNAME -p ACR_Password
+    - name: Docker build
+      run: docker build -t $registryName/$repositoryName:$tag --build-arg build_version=$tag $dockerFolderPath
+    - name: Docker push
+      run: docker push $registryName/$repositoryName:$tag
+  
+  
   build:
 
     runs-on: ubuntu-latest
