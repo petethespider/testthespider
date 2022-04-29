@@ -23,7 +23,8 @@ jobs:
     - uses: azure/webapps-deploy@v2
       with:
         app-name: 2022oscardevops-dev
-        images: $registryName/$repositoryName:$tag
+        images: ${{ env.registryName }}/${{ env.repositoryName }}:${{ env.tag }}
+   
    needs: Job1       
   Job1: 
     name: Docker
