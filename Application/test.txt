@@ -5,3 +5,4 @@ c'mon do stuff!! NOW!
 do it!
 one more time
 ultimo
+test env deploy
