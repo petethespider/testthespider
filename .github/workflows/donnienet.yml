@@ -6,6 +6,12 @@ on:
   pull_request:
     paths: Application/**
 jobs:
+  registryName: 2022oscardevopsreg.azurerc.io
+  repositoryName: wth/dotnetcoreapp
+  dockerFolderPath: Application/src/RazorPagesTestSample
+  tag: ${{github.run_number}}
+  
+jobs:
   build:
 
     runs-on: ubuntu-latest
